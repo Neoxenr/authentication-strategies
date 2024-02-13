@@ -1,0 +1,36 @@
+.page {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  row-gap: var(--space-6xl);
+  height: 100%;
+}
+
+.authStrategies {
+  display: flex;
+  column-gap: var(--space-m);
+}
+
+.formWrapper {
+  display: flex;
+  flex-direction: column;
+  row-gap: var(--space-xl);
+}
+
+.form {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  row-gap: var(--space-s);
+}
+
+.fields {
+  display: flex;
+  flex-direction: column;
+  row-gap: var(--space-m);
+}
+
+.link {
+  color: red;
+}
