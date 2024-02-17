@@ -4,6 +4,7 @@ import { App } from './App.tsx';
 import './index.scss';
 import { Theme, presetGpnDark } from '@consta/uikit/Theme';
 import { BrowserRouter } from 'react-router-dom';
+import UserProvider from './providers/UserProvider/UserProvider.tsx';
 
 const enableMocking = async () => {
   const { worker } = await import('./mocs/browser');
@@ -16,7 +17,9 @@ enableMocking().then(() => {
     <React.StrictMode>
       <BrowserRouter>
         <Theme preset={presetGpnDark}>
-          <App />
+          <UserProvider>
+            <App />
+          </UserProvider>
         </Theme>
       </BrowserRouter>
     </React.StrictMode>

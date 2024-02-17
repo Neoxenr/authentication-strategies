@@ -1,13 +1,13 @@
 import { FC, ReactNode, useMemo, useState } from 'react';
 import { UserContext } from './UserContext';
-import { User } from '../../types/entity/user';
+import { UserCredentials } from '../../types/api/user-credetials';
 
 type UserProviderProps = {
   children: ReactNode;
 };
 
 const UserProvider: FC<UserProviderProps> = ({ children }) => {
-  const [user, setUser] = useState<User | null>(null);
+  const [user, setUser] = useState<UserCredentials | null>(null);
 
   const memoizedUser = useMemo(
     () => ({

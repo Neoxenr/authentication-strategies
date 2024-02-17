@@ -1,6 +1,7 @@
 import { http, HttpResponse } from 'msw';
 import { simpleFaker } from '@faker-js/faker';
 import { MOCK_USER } from '../data/user';
+import { HttpStatuses } from '../../const/http-statuses';
 
 const sessions = [];
 
@@ -9,7 +10,7 @@ export const sessionHandlers = [
     const user = await request.json();
 
     if (user.email !== MOCK_USER.email || user.password !== MOCK_USER.password)
-      return HttpResponse.json({ status: 403 });
+      return HttpResponse.json({ status: HttpStatuses.Forbidden });
 
     const newSessionId = simpleFaker.string.uuid();
 
@@ -17,8 +18,11 @@ export const sessionHandlers = [
 
     return new HttpResponse(null, {
       headers: {
-        'Set-Cookie': `sessionId=${newSessionId}`
+        'Set-Cookie': `sessionId=${newSessionId}; path=/; max-age=3600;`
       }
     });
   })
+  // http.post('/checkauthstatus/session', async ({request}) => {
+  //   request.
+  // })
 ];

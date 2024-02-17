@@ -6,16 +6,21 @@ import { Text } from '@consta/uikit/Text';
 
 import styles from './SignIn.module.scss';
 import cn from 'classnames';
-import { SignInData } from '../../types/api/sign-in-dto';
 import { Routes } from '../../const/routes';
 import { HttpMethods } from '../../const/http-methods';
+import { useContext, useState } from 'react';
+import { UserContext } from '../../providers/UserProvider/UserContext';
+import { HttpStatuses } from '../../const/http-statuses';
+import { UserCredentials } from '../../types/api/user-credetials';
 
 const SignIn = () => {
   const location = useLocation();
-
   const navigate = useNavigate();
 
-  const onSubmit = (values: SignInData) => {
+  const { setUser } = useContext(UserContext);
+  const [error, setError] = useState<string | null>(null);
+
+  const onSubmit = (values: UserCredentials) => {
     const lastSegmentPath = location.pathname.substring(
       location.pathname.lastIndexOf('/') + 1
     );
@@ -23,8 +28,14 @@ const SignIn = () => {
     fetch(`/${Routes.SIGN_IN}/${lastSegmentPath}`, {
       method: HttpMethods.POST,
       body: JSON.stringify(values)
-    }).then(() => {
-      navigate(`/${Routes.HOME}/${lastSegmentPath}`);
+    }).then((response) => {
+      if (response.status !== HttpStatuses.Forbidden) {
+        setError('Ошибка аутентификации');
+      }
+
+      setUser(values);
+
+      navigate(`/${Routes.HOME}`);
     });
   };
 
@@ -62,6 +73,7 @@ const SignIn = () => {
           </Formik>
         </div>
       </div>
+      {error && <Text view="warning">{error}</Text>}
     </div>
   );
 };
